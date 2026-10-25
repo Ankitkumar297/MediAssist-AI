@@ -6,7 +6,7 @@ Healthcare terminology can be hard to interpret before or after a clinical visit
 
 ## Architecture and technologies
 
-React, TypeScript, Vite, Tailwind CSS, Lucide icons, and Markdown rendering power the responsive dashboard. FastAPI handles validation and API errors. The supported Google Gen AI Python SDK calls Gemini using a backend-only API key. PyMuPDF extracts selectable text from PDFs in memory.
+React, TypeScript, Vite, Tailwind CSS, Lucide icons, and Markdown rendering power the responsive dashboard, including a saved light/dark theme toggle. FastAPI handles validation and API errors. The supported Google Gen AI Python SDK calls Gemini using a backend-only API key. PyMuPDF extracts selectable text from PDFs in memory.
 
 `Browser → FastAPI → Gemini`  
 `PDF → FastAPI validation → PyMuPDF extraction → Gemini`

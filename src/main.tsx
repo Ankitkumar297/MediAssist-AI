@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Activity, ArrowRight, Bot, Check, ChevronDown, CircleHelp, Download, FileHeart, FileText, Heart, HeartPulse, LockKeyhole, Menu, MessageCircle, Plus, Send, ShieldCheck, Sparkles, Stethoscope, UploadCloud, X } from 'lucide-react'
+import { Activity, ArrowRight, Bot, Check, ChevronDown, CircleHelp, Download, FileHeart, FileText, Heart, HeartPulse, LockKeyhole, Menu, MessageCircle, Moon, Plus, Send, ShieldCheck, Sparkles, Stethoscope, Sun, UploadCloud, X } from 'lucide-react'
 import { downloadReportSummary } from './reportPdf'
 import './styles.css'
 
@@ -34,6 +34,10 @@ async function uploadReport(form: FormData): Promise<{ answer: string; report_id
 }
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    try { const saved = localStorage.getItem('mediassist-theme'); return saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches }
+    catch { return false }
+  })
   const [view, setView] = useState<View>('overview')
   const [mobileMenu, setMobileMenu] = useState(false)
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -57,6 +61,7 @@ function App() {
   const [error, setError] = useState('')
   const fileInput = useRef<HTMLInputElement>(null)
 
+  useEffect(() => { document.documentElement.classList.toggle('dark', darkMode); try { localStorage.setItem('mediassist-theme', darkMode ? 'dark' : 'light') } catch { /* Theme still works for this page. */ } }, [darkMode])
   useEffect(() => { try { sessionStorage.setItem('mediassist-chat', JSON.stringify(messages)) } catch { /* Browsers may disable storage. In-memory chat still works. */ } }, [messages])
   const newChat = () => { setMessages([]); setChatInput(''); setError(''); try { sessionStorage.removeItem('mediassist-chat') } catch { /* In-memory reset still works. */ } }
 
@@ -110,7 +115,7 @@ function App() {
     </aside>
     {mobileMenu && <div className="mobile-scrim" onClick={() => setMobileMenu(false)}/>}
     <main className="main">
-      <header className="topbar"><button className="menu-button" aria-label="Open menu" onClick={() => setMobileMenu(true)}><Menu size={22}/></button><div className="breadcrumb">Workspace <span>/</span> <strong>{view === 'overview' ? 'Overview' : view === 'chat' ? 'AI Health Chat' : view === 'symptoms' ? 'Symptom Assistant' : 'Report Explainer'}</strong></div><div className="topbar-right"><span className="status-dot"/> AI-powered health guidance <ChevronDown size={15}/></div></header>
+      <header className="topbar"><button className="menu-button" aria-label="Open menu" onClick={() => setMobileMenu(true)}><Menu size={22}/></button><div className="breadcrumb">Workspace <span>/</span> <strong>{view === 'overview' ? 'Overview' : view === 'chat' ? 'AI Health Chat' : view === 'symptoms' ? 'Symptom Assistant' : 'Report Explainer'}</strong></div><div className="topbar-right"><button className="theme-toggle" type="button" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'} aria-pressed={darkMode} title={darkMode ? 'Light mode' : 'Dark mode'} onClick={() => setDarkMode(current => !current)}>{darkMode ? <Sun size={17}/> : <Moon size={17}/>}</button><span className="status-dot"/> AI-powered health guidance <ChevronDown size={15}/></div></header>
       <div className="content">
         {view === 'overview' && <>
           <div className="welcome-kicker"><span className="kicker-line"/> YOUR HEALTH, BETTER UNDERSTOOD</div>

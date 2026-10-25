@@ -2,6 +2,8 @@
 
 A responsive healthcare information dashboard built with React, TypeScript, Vite, Tailwind CSS, FastAPI, the supported Google Gen AI Python SDK, and PyMuPDF.
 
+The dashboard supports light and dark mode with a browser-saved theme preference.
+
 ## Features
 
 - **AI Health Chat:** Conversational educational health information with recent context, browser-session chat history, and a New Chat reset.
